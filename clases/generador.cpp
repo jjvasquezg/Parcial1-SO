@@ -130,6 +130,13 @@ std::vector<Persona> generarColeccion(int n) {
     return personas;
 }
 
+/**
+ * Implementación de asignarGrupo.
+ * 
+ * POR QUÉ: Asignar un grupo a un declarante dependiendo de los ultimos digistos de su id.
+ * CÓMO: Usando comparaciones.
+ * PARA QUÉ: Para operaciones de búsqueda en la aplicación.
+ */
 char asignarGrupo(std::string id){
 
     // Tomar los últimos 2 caracteres del string
