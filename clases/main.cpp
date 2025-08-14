@@ -52,6 +52,7 @@ int main() {
     // Puntero inteligente para gestionar la colección de personas
     // POR QUÉ: Evitar fugas de memoria y garantizar liberación automática.
     std::unique_ptr<std::vector<Persona>> personas = nullptr;
+    std::vector<Persona> personasValor;
     
     Monitor monitor; // Monitor para medir rendimiento
     
@@ -84,6 +85,7 @@ int main() {
                 auto nuevasPersonas = generarColeccion(n);
                 tam = nuevasPersonas.size();
                 
+                personasValor = nuevasPersonas;
                 // Mover el conjunto al puntero inteligente (propiedad única)
                 personas = std::make_unique<std::vector<Persona>>(std::move(nuevasPersonas));
                 
@@ -169,17 +171,22 @@ int main() {
                 do {
                     mostrarMenuBusqueda();
                     std::cin >> opcionB;
+                    std::string op;
 
-                    switch (opcionB)
-                    {
-                    case 0:
-                        break;
-                    case 8:
-                        std::cout << "Volviendo...\n";
-                        break;
-                    
-                    default:
-                        std::cout << "Opción inválida!\n";
+                    switch (opcionB) {
+                        case 0: { // Persona más longeva (En todo el país)
+                            
+                            op = "pais"; 
+                            auto encontrada = buscarLongevaV(personasValor, op);
+                            break;
+                        }
+                        case 8:
+                            std::cout << "Volviendo...\n";
+                            break;
+                        
+
+                        default:
+                            std::cout << "Opción inválida!\n";
                     }
 
                 } while (opcionB != 8);
