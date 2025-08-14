@@ -19,12 +19,26 @@ void mostrarMenu() {
     std::cout << "\n1. Mostrar resumen de todas las personas";
     std::cout << "\n2. Mostrar detalle completo por índice";
     std::cout << "\n3. Buscar persona por ID";
-    std::cout << "\n4. Mostrar estadísticas de rendimiento";
-    std::cout << "\n5. Exportar estadísticas a CSV";
-    std::cout << "\n6. Salir";
+    std::cout << "\n4. Busqueda Personalizada";
+    std::cout << "\n5. Mostrar estadísticas de rendimiento";
+    std::cout << "\n6. Exportar estadísticas a CSV";
+    std::cout << "\n7. Salir";
     std::cout << "\nSeleccione una opción: ";
 }
+void mostrarMenuBusqueda() {
+    std::cout << "\n\n=== BUSQUEDA PERSONALIZADA ===";
+    std::cout << "\n0. Persona más longeva (En todo el país)";
+    std::cout << "\n1. Persona más longeva (Por ciudad)";
+    std::cout << "\n2. Mostrar detalle completo por índice";
+    std::cout << "\n3. Persona con mayor patrimonio (En todo el país)";
+    std::cout << "\n4. Persona con mayor patrimonio (Por ciudad)";
+    std::cout << "\n5. Persona con mayor patrimonio (Por grupo A, B, C)";
+    std::cout << "\n6. Declarantes de renta (Por grupo A, B, C)";
+    std::cout << "\n7. Verificar grupo de declaración (Por ID)";
+    std::cout << "\n8. Volver";
+    std::cout << "\nSeleccione una opción: ";
 
+}
 /**
  * Punto de entrada principal del programa.
  * 
@@ -41,7 +55,7 @@ int main() {
     
     Monitor monitor; // Monitor para medir rendimiento
     
-    int opcion;
+    int opcion, opcionB;
     do {
         mostrarMenu();
         std::cin >> opcion;
@@ -151,16 +165,36 @@ int main() {
                 monitor.registrar("Buscar por ID", tiempo_busqueda, memoria_busqueda);
                 break;
             }
+            case 4:
+                do {
+                    mostrarMenuBusqueda();
+                    std::cin >> opcionB;
+
+                    switch (opcionB)
+                    {
+                    case 0:
+                        break;
+                    case 8:
+                        std::cout << "Volviendo...\n";
+                        break;
+                    
+                    default:
+                        std::cout << "Opción inválida!\n";
+                    }
+
+                } while (opcionB != 8);
+                break;
+
                 
-            case 4: // Mostrar estadísticas de rendimiento
+            case 5: // Mostrar estadísticas de rendimiento
                 monitor.mostrar_resumen();
                 break;
                 
-            case 5: // Exportar estadísticas a CSV
+            case 6: // Exportar estadísticas a CSV
                 monitor.exportar_csv();
                 break;
                 
-            case 6: // Salir
+            case 7: // Salir
                 std::cout << "Saliendo...\n";
                 break;
                 
@@ -175,7 +209,7 @@ int main() {
             monitor.mostrar_estadistica("Opción " + std::to_string(opcion), tiempo, memoria);
         }
         
-    } while(opcion != 6);
+    } while(opcion != 7);
     
     return 0;
 }
