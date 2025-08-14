@@ -178,3 +178,21 @@ const Persona* buscarPorID(const std::vector<Persona>& personas, const std::stri
         return nullptr; // No encontrado
     }
 }
+
+const Persona buscarLongevaV(const std::vector<Persona> personas, std::string opcion){
+
+
+
+}
+
+const Persona buscarMayorPatrimonioV(const std::vector<Persona> personas, std::string opcion){
+
+
+
+}
+
+const Persona buscarDeclarantesV(const std::vector<Persona> personas, std::string id){
+
+
+
+}
