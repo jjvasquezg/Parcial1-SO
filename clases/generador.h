@@ -51,6 +51,8 @@ Persona generarPersona();
  */
 std::vector<Persona> generarColeccion(int n);
 
+char asignarGrupo(std::string id);
+
 /**
  * Busca una persona por ID en un vector de personas.
  * 

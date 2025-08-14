@@ -93,6 +93,7 @@ Persona generarPersona() {
     apellido += apellidos[rand() % apellidos.size()];
     
     // Genera los demás atributos
+    char grupo;
     std::string id = generarID();
     std::string ciudad = ciudadesColombia[rand() % ciudadesColombia.size()];
     std::string fecha = generarFechaNacimiento();
@@ -102,8 +103,13 @@ Persona generarPersona() {
     double patrimonio = randomDouble(0, 2000000000);       // 0 a 2,000M COP
     double deudas = randomDouble(0, patrimonio * 0.7);     // Deudas hasta el 70% del patrimonio
     bool declarante = (ingresos > 50000000) && (rand() % 100 > 30); // Probabilidad 70% si ingresos > 50M
+    if (declarante == true){
+        grupo = asignarGrupo(id);
+    }else {
+        grupo = NULL;
+    }
     
-    return Persona(nombre, apellido, id, ciudad, fecha, ingresos, patrimonio, deudas, declarante);
+    return Persona(nombre, apellido, id, ciudad, fecha, ingresos, patrimonio, deudas, declarante, grupo);
 }
 
 /**
@@ -122,6 +128,29 @@ std::vector<Persona> generarColeccion(int n) {
     }
     
     return personas;
+}
+
+char asignarGrupo(std::string id){
+
+    // Tomar los últimos 2 caracteres del string
+    std::string ultimosDosStr = id.substr(id.size() - 2);
+
+    // Convertirlos a entero
+    int ultimosDos = stoi(ultimosDosStr);
+
+    if (ultimosDos >= 0 && ultimosDos <= 39) {
+        return 'A';
+    } 
+    else if (ultimosDos >= 40 && ultimosDos <= 79) {
+        return 'B';
+    } 
+    else if (ultimosDos >= 80 && ultimosDos <= 99) {
+        return 'C';
+    } 
+    else {
+        return '?'; // Caso de error
+    }
+
 }
 
 /**
