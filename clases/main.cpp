@@ -25,18 +25,32 @@ void mostrarMenu() {
     std::cout << "\n7. Salir";
     std::cout << "\nSeleccione una opción: ";
 }
+
 void mostrarMenuBusqueda() {
     std::cout << "\n\n=== BUSQUEDA PERSONALIZADA ===";
     std::cout << "\n0. Persona más longeva (En todo el país)";
     std::cout << "\n1. Persona más longeva (Por ciudad)";
-    std::cout << "\n2. Mostrar detalle completo por índice";
-    std::cout << "\n3. Persona con mayor patrimonio (En todo el país)";
-    std::cout << "\n4. Persona con mayor patrimonio (Por ciudad)";
-    std::cout << "\n5. Persona con mayor patrimonio (Por grupo A, B, C)";
-    std::cout << "\n6. Declarantes de renta (Por grupo A, B, C)";
-    std::cout << "\n7. Verificar grupo de declaración (Por ID)";
-    std::cout << "\n8. Volver";
+    std::cout << "\n2. Persona con mayor patrimonio (En todo el país)";
+    std::cout << "\n3. Persona con mayor patrimonio (Por ciudad)";
+    std::cout << "\n4. Persona con mayor patrimonio (Por grupo A, B, C)";
+    std::cout << "\n5. Declarantes de renta (Por grupo A, B, C)";
+    std::cout << "\n6. Verificar grupo de declaración (Por ID)";
+    std::cout << "\n7. Volver";
     std::cout << "\nSeleccione una opción: ";
+
+}
+
+void mostrarCiudades() { 
+    std::cout << "\n\n=== CIUDADES ===";
+    std::cout << "\nBogotá, Medellín, Cali, Barranquilla, Cartagena, Bucaramanga, Pereira, Santa Marta, Cúcuta,\nIbagué, Manizales, Pasto, Neiva, Villavicencio, Armenia, Sincelejo, Valledupar, Montería, Popayán, Tunja";
+    std::cout << "\nIngrese una opción: ";
+
+}
+
+void mostrarGrupos() { 
+    std::cout << "\n\n=== Grupos ===";
+    std::cout << "A, B, C";
+    std::cout << "\nIngrese una opción: ";
 
 }
 /**
@@ -168,23 +182,100 @@ int main() {
                 break;
             }
             case 4:
+                if (!personas || personas->empty()) {
+                    std::cout << "\nNo hay datos disponibles. Use opción 0 primero.\n";
+                    break;
+                }
                 do {
                     mostrarMenuBusqueda();
                     std::cin >> opcionB;
-                    std::string op;
+                    std::string valor;
 
                     switch (opcionB) {
-                        case 0: { // Persona más longeva (En todo el país)
-                            
-                            op = "pais"; 
-                            auto encontrada = buscarLongevaV(personasValor, op);
+                        case 0: { // Persona más longeva (En todo el país) Tanto valor como referencia
+                            valor = "pais";
+                            monitor.iniciar_tiempo();
+                            long memoria_inicio = monitor.obtener_memoria();
+
+                            auto encontrada = buscarLongevaV(personasValor, valor);
+                            encontrada.mostrar();
+
+                            double tiempo_busqueda = monitor.detener_tiempo();
+                            long memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
+                            monitor.registrar("Persona más longeva (En todo el país) VALOR", tiempo_busqueda, memoria_busqueda);
                             break;
                         }
-                        case 8:
+
+                        case 1: { // Persona más longeva (Por ciudad) Tanto valor como referencia
+                            mostrarCiudades();
+                            std::cin >> valor; 
+                            monitor.iniciar_tiempo();
+                            long memoria_inicio = monitor.obtener_memoria();
+                            
+                            auto encontrada = buscarLongevaV(personasValor, valor);
+                            encontrada.mostrar();
+
+                            double tiempo_busqueda = monitor.detener_tiempo();
+                            long memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
+                            monitor.registrar("Persona más longeva (Por ciudad) VALOR", tiempo_busqueda, memoria_busqueda);
+                            break;
+
+                        }
+
+                        case 2: { // Persona con mayor patrimonio (En todo el país) Tanto valor como referencia
+                            valor = "pais";
+                            monitor.iniciar_tiempo();
+                            long memoria_inicio = monitor.obtener_memoria();
+
+                            auto encontrada = buscarMayorPatrimonioV(personasValor, valor, 0);
+                            encontrada.mostrar();
+                            
+                            double tiempo_busqueda = monitor.detener_tiempo();
+                            long memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
+                            monitor.registrar("Persona con mayor patrimonio (En todo el país) VALOR", tiempo_busqueda, memoria_busqueda);
+                            break;
+
+                        }
+                        case 3: { // Persona con mayor patrimonio (Por ciudad) Tanto valor como referencia
+                            mostrarCiudades();
+                            std::cin >> valor; 
+                            monitor.iniciar_tiempo();
+                            long memoria_inicio = monitor.obtener_memoria();
+                            
+                            auto encontrada = buscarMayorPatrimonioV(personasValor, valor, 1);
+                            encontrada.mostrar();
+
+                            double tiempo_busqueda = monitor.detener_tiempo();
+                            long memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
+                            monitor.registrar("Persona con mayor patrimonio (Por ciudad) VALOR", tiempo_busqueda, memoria_busqueda);
+                            break;
+
+                        }
+
+                        case 4: { // Persona con mayor patrimonio (Por grupo) Tanto valor como referencia
+                            mostrarGrupos();
+                            std::cin >> valor; 
+                            monitor.iniciar_tiempo();
+                            long memoria_inicio = monitor.obtener_memoria();
+                            
+                            auto encontrada = buscarMayorPatrimonioV(personasValor, valor, 2);
+                            encontrada.mostrar();
+
+                            double tiempo_busqueda = monitor.detener_tiempo();
+                            long memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
+                            monitor.registrar("Persona con mayor patrimonio (Por grupo) VALOR", tiempo_busqueda, memoria_busqueda);
+                            break;
+
+                        }
+
+                        case 5:
+
+                        case 6:
+
+                        case 7:
                             std::cout << "Volviendo...\n";
                             break;
                         
-
                         default:
                             std::cout << "Opción inválida!\n";
                     }

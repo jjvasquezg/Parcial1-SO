@@ -65,8 +65,8 @@ char asignarGrupo(std::string id);
  * @return Puntero a la persona encontrada o nullptr si no se encuentra.
  */
 const Persona* buscarPorID(const std::vector<Persona>& personas, const std::string& id);
-const Persona buscarLongevaV(const std::vector<Persona> personas, std::string opcion);
-const Persona buscarMayorPatrimonioV(const std::vector<Persona> personas, std::string opcion);
+const Persona buscarLongevaV(const std::vector<Persona> personas, std::string valor);
+const Persona buscarMayorPatrimonioV(const std::vector<Persona> personas, std::string valor, int opcion);
 const Persona buscarDeclarantesV(const std::vector<Persona> personas, std::string id);
 
 #endif // GENERADOR_H
