@@ -202,6 +202,7 @@ int main() {
 
                             double tiempo_busqueda = monitor.detener_tiempo();
                             long memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
+                            monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB), tiempo_busqueda, memoria_busqueda);
                             monitor.registrar("Persona más longeva (En todo el país) VALOR", tiempo_busqueda, memoria_busqueda);
                             break;
                         }
@@ -217,6 +218,7 @@ int main() {
 
                             double tiempo_busqueda = monitor.detener_tiempo();
                             long memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
+                            monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB), tiempo_busqueda, memoria_busqueda);
                             monitor.registrar("Persona más longeva (Por ciudad) VALOR", tiempo_busqueda, memoria_busqueda);
                             break;
 
@@ -232,6 +234,7 @@ int main() {
                             
                             double tiempo_busqueda = monitor.detener_tiempo();
                             long memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
+                            monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB), tiempo_busqueda, memoria_busqueda);
                             monitor.registrar("Persona con mayor patrimonio (En todo el país) VALOR", tiempo_busqueda, memoria_busqueda);
                             break;
 
@@ -247,6 +250,7 @@ int main() {
 
                             double tiempo_busqueda = monitor.detener_tiempo();
                             long memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
+                            monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB), tiempo_busqueda, memoria_busqueda);
                             monitor.registrar("Persona con mayor patrimonio (Por ciudad) VALOR", tiempo_busqueda, memoria_busqueda);
                             break;
 
@@ -263,6 +267,7 @@ int main() {
 
                             double tiempo_busqueda = monitor.detener_tiempo();
                             long memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
+                            monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB), tiempo_busqueda, memoria_busqueda);
                             monitor.registrar("Persona con mayor patrimonio (Por grupo) VALOR", tiempo_busqueda, memoria_busqueda);
                             break;
 
@@ -280,10 +285,10 @@ int main() {
                             std::cout << "Opción inválida!\n";
                     }
 
-                } while (opcionB != 8);
-                break;
+                } while (opcionB != 7);
 
-                
+            break;
+
             case 5: // Mostrar estadísticas de rendimiento
                 monitor.mostrar_resumen();
                 break;
