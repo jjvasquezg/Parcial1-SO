@@ -27,6 +27,7 @@ void mostrarMenu() {
     std::cout << "\nSeleccione una opción: ";
 }
 
+// Muestra el menú de busqueda.
 void mostrarMenuBusqueda() {
     std::cout << "\n\n=== BUSQUEDA PERSONALIZADA ===";
     std::cout << "\n0. Persona más longeva (En todo el país)";
@@ -44,6 +45,7 @@ void mostrarMenuBusqueda() {
 
 }
 
+// Muestra las opciones disponibles de ciudades.
 void mostrarCiudades() { 
     std::cout << "\n\n=== CIUDADES ===";
     std::cout << "\nBogotá, Medellín, Cali, Barranquilla, Cartagena, Bucaramanga, Pereira, Santa Marta, Cúcuta,\nIbagué, Manizales, Pasto, Neiva, Villavicencio, Armenia, Sincelejo, Valledupar, Montería, Popayán, Tunja";
@@ -51,6 +53,7 @@ void mostrarCiudades() {
 
 }
 
+// Muestra las opciones disponibles de grupos.
 void mostrarGrupos() { 
     std::cout << "\n\n=== Grupos ===";
     std::cout << "\nA, B, C";
@@ -195,7 +198,7 @@ int main() {
                 monitor.registrarR("Buscar por ID", tiempo_busqueda, memoria_busqueda);
                 break;
             }
-            case 4:
+            case 4: // Busquedas personalizadas
                 if (!personas || personas->empty()) {
                     std::cout << "\nNo hay datos disponibles. Use opción 0 primero.\n";
                     break;
@@ -540,8 +543,7 @@ int main() {
                             break;
 
                         }
-
-                            break;
+                        
                         case 10:
                             std::cout << "Volviendo...\n";
                             break;

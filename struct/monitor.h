@@ -7,42 +7,52 @@
 #include <iostream>
 #include <fstream>
 
-/**
- * Clase para monitorear el rendimiento (tiempo y memoria).
- * 
- * POR QUÉ: Cuantificar el rendimiento de las operaciones.
- * CÓMO: Midiendo tiempo con chrono y memoria con /proc/self/statm (Linux).
- * PARA QUÉ: Optimización y análisis de rendimiento.
- */
-class Monitor {
-public:
+// Struct que monitorea tiempo y memoria de ejecución
+struct Monitor {
+    // Registra el tiempo de inicio
     void iniciar_tiempo();
+
+    // Devuelve el tiempo transcurrido en ms
     double detener_tiempo();
+
+    // Retorna la memoria residente actual en KB
     long obtener_memoria();
-    
+
+    // Registra operación para pruebas por valor
     void registrarV(const std::string& operacion, double tiempo, long memoria);
+
+    // Registra operación para pruebas por referencia
     void registrarR(const std::string& operacion, double tiempo, long memoria);
+
+    // Muestra estadística de una operación
     void mostrar_estadistica(const std::string& operacion, double tiempo, long memoria);
+
+    // Muestra resumen de estadísticas por valor
     void mostrar_resumenV();
+
+    // Muestra resumen de estadísticas por referencia
     void mostrar_resumenR();
+
+    // Exporta registros por valor a CSV
     void exportar_csvV(const std::string& nombre_archivo = "estadisticasValor.csv");
+
+    // Exporta registros por referencia a CSV
     void exportar_csvR(const std::string& nombre_archivo = "estadisticasReferencia.csv");
 
-private:
-    // Estructura para almacenar métricas de una operación
+    // Registro individual de operación
     struct Registro {
-        std::string operacion; // Nombre de la operación
-        double tiempo;         // Tiempo en milisegundos
-        long memoria;          // Memoria en KB
+        std::string operacion;
+        double tiempo;
+        long memoria;
     };
-    
-    std::chrono::high_resolution_clock::time_point inicio; // Punto de inicio del cronómetro
-    std::vector<Registro> registrosV; // Historial de registros
+
+    std::chrono::high_resolution_clock::time_point inicio;
+    std::vector<Registro> registrosV;
     std::vector<Registro> registrosR;
-    double total_tiempoV = 0;         // Tiempo total acumulado
-    long max_memoriaV = 0;            // Máximo de memoria utilizado
-    double total_tiempoR = 0;         // Tiempo total acumulado
-    long max_memoriaR = 0;            // Máximo de memoria utilizado
+    double total_tiempoV = 0;
+    long max_memoriaV = 0;
+    double total_tiempoR = 0;
+    long max_memoriaR = 0;
 };
 
 #endif // MONITOR_H

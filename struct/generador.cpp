@@ -183,6 +183,7 @@ const Persona* buscarPorID(const std::vector<Persona>& personas, const std::stri
     }
 }
 
+// Parsear fecha, facilita la comparación de edades.
 std::tuple<int,int,int> parseFecha(std::string fecha) {
     int d, m, a;
     char sep;
@@ -191,6 +192,7 @@ std::tuple<int,int,int> parseFecha(std::string fecha) {
     return {a, m, d};
 }
 
+// Buscar persona más longeva por valor
 const Persona buscarLongevaV(std::vector<Persona> personas, std::string valor) {
     if (personas.empty()) {
         return personas[0];
@@ -226,7 +228,7 @@ const Persona buscarLongevaV(std::vector<Persona> personas, std::string valor) {
     }
     return longeva;
 }
-
+// Buscar persona más longeva por referencia
 const Persona* buscarLongevaR(const std::vector<Persona>& personas, const std::string& valor) {
     if (personas.empty()) {
         throw std::runtime_error("No hay personas registradas."); // evitar UB
@@ -258,6 +260,7 @@ const Persona* buscarLongevaR(const std::vector<Persona>& personas, const std::s
     return longeva;
 }
 
+// Buscar persona con mayor patrimonio por valor
 const Persona buscarMayorPatrimonioV(const std::vector<Persona> personas, std::string valor, int opcion) {
 
     auto coincide = [opcion, valor](Persona p) -> bool {
@@ -284,7 +287,7 @@ const Persona buscarMayorPatrimonioV(const std::vector<Persona> personas, std::s
 
 }
 
-
+// Buscar persona con mayor patrimonio por referencia
 const Persona* buscarMayorPatrimonioR(const std::vector<Persona>& personas, const std::string& valor, int opcion) {
     auto coincide = [&](const Persona& p) -> bool {
         if (opcion == 0) {
@@ -310,7 +313,7 @@ const Persona* buscarMayorPatrimonioR(const std::vector<Persona>& personas, cons
     return mejor;
 }
 
-// Buscar declarantes por Valor
+// Buscar declarantes por valor
 void buscarDeclarantesV(const std::vector<Persona> personas, char grupo){
 
     int contador = 1;
@@ -350,6 +353,7 @@ void buscarDeclarantesR(const std::vector<Persona>& personas, char grupo) {
     << grupo << ": " << contador-1 << std::endl;
 }
 
+// Valida si un id existe y si este declara. Si no existe pero el id es valido le da un supuesto de en que grupo declararía. Por valor
 void validarDeclarantesV(const std::vector<Persona> personas, std::string id){
 
     bool band = false;
@@ -413,6 +417,7 @@ void validarDeclarantesR(const std::vector<Persona>& personas, const std::string
     }
 }
 
+// Porcentaje de personas con patrimonio mayor a 650 M (Millonarios) por valor
 double porcentajePatrimonioMayor650MV(std::vector<Persona> personas) {
 
     int contador = 0;
@@ -426,6 +431,7 @@ double porcentajePatrimonioMayor650MV(std::vector<Persona> personas) {
     return porcentaje;
 }
 
+// Porcentaje de personas con patrimonio mayor a 650 M (Millonarios) por referencia
 void porcentajePatrimonioMayor650MR(const std::vector<Persona>& personas, double& porcentaje) {
 
     int contador = 0;
@@ -438,7 +444,7 @@ void porcentajePatrimonioMayor650MR(const std::vector<Persona>& personas, double
     porcentaje = (static_cast<double>(contador) / personas.size()) * 100.0;
 }
 
-
+// Ciudad con el menor ingreso en promedio por valor
 std::string ciudadMenorIngresoPromedioV(std::vector<Persona> personas) {
 
     std::map<std::string, std::pair<double, int>> ingresosPorCiudad;
@@ -462,6 +468,7 @@ std::string ciudadMenorIngresoPromedioV(std::vector<Persona> personas) {
     return ciudadMin;
 }
 
+// Ciudad con el menor ingreso en promedio por valor
 void ciudadMenorIngresoPromedioR(const std::vector<Persona>& personas, std::string& ciudad) {
 
     std::map<std::string, std::pair<double, int>> ingresosPorCiudad;
@@ -482,6 +489,7 @@ void ciudadMenorIngresoPromedioR(const std::vector<Persona>& personas, std::stri
     }
 }
 
+// Persona más joven que declara por valor
 const Persona buscarMasJovenDeclaranteV(std::vector<Persona> personas) {
 
     std::vector<Persona> declarantes;
@@ -506,6 +514,7 @@ const Persona buscarMasJovenDeclaranteV(std::vector<Persona> personas) {
     return masJoven;
 }
 
+// Persona más joven que declara por referencia
 const Persona* buscarMasJovenDeclaranteR(const std::vector<Persona>& personas) {
 
     const Persona* masJoven = nullptr;
