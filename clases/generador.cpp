@@ -226,120 +226,6 @@ const Persona buscarLongevaV(std::vector<Persona> personas, std::string valor) {
     return longeva;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const Persona buscarMayorPatrimonioV(const std::vector<Persona> personas, std::string valor, int opcion) {
 
     auto coincide = [opcion, valor](Persona p) -> bool {
@@ -367,7 +253,7 @@ const Persona buscarMayorPatrimonioV(const std::vector<Persona> personas, std::s
 }
 
 
-const Persona* buscarMayorPatrimonioV(const std::vector<Persona>& personas, const std::string& valor, int opcion) {
+const Persona* buscarMayorPatrimonioF(const std::vector<Persona>& personas, const std::string& valor, int opcion) {
     auto coincide = [&](const Persona& p) -> bool {
         if (opcion == 0) {
             return true;

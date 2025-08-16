@@ -55,6 +55,7 @@ Persona generarPersona();
 std::vector<Persona> generarColeccion(int n);
 
 char asignarGrupo(std::string id);
+std::tuple<int,int,int> parseFecha(std::string fecha);
 
 /**
  * Busca una persona por ID en un vector de personas.
@@ -70,7 +71,7 @@ char asignarGrupo(std::string id);
 const Persona* buscarPorID(const std::vector<Persona>& personas, const std::string& id);
 const Persona buscarLongevaV(const std::vector<Persona> personas, std::string valor);
 const Persona buscarMayorPatrimonioV(const std::vector<Persona> personas, std::string valor, int opcion);
-const Persona* buscarMayorPatrimonioV(const std::vector<Persona>& persona, const std::string& id);
+const Persona* buscarMayorPatrimonioF(const std::vector<Persona>& persona, const std::string& id);
 const Persona buscarDeclarantesV(const std::vector<Persona> personas, std::string id);
 
 #endif // GENERADOR_H

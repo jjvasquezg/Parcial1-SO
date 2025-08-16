@@ -36,7 +36,10 @@ void mostrarMenuBusqueda() {
     std::cout << "\n4. Persona con mayor patrimonio (Por grupo A, B, C)";
     std::cout << "\n5. Declarantes de renta (Por grupo A, B, C)";
     std::cout << "\n6. Verificar grupo de declaración (Por ID)";
-    std::cout << "\n7. Volver";
+    std::cout << "\n7. ------";
+    std::cout << "\n8. ------";
+    std::cout << "\n9. ------";
+    std::cout << "\n10. Volver";
     std::cout << "\nSeleccione una opción: ";
 
 }
@@ -289,6 +292,12 @@ int main() {
                         case 6:
 
                         case 7:
+
+                        case 8:
+
+                        case 9:
+
+                        case 10:
                             std::cout << "Volviendo...\n";
                             break;
                         
@@ -296,7 +305,7 @@ int main() {
                             std::cout << "Opción inválida!\n";
                     }
 
-                } while (opcionB != 7);
+                } while (opcionB != 10);
 
             break;
 
