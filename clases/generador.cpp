@@ -182,55 +182,176 @@ const Persona* buscarPorID(const std::vector<Persona>& personas, const std::stri
     }
 }
 
-std::tuple<int,int,int> parseFecha(std::string fecha) {
-    int d, m, a;
-    char sep;
-    std::istringstream iss(fecha);
-    iss >> d >> sep >> m >> sep >> a;
-    return {a, m, d};
-}
+const Persona buscarLongevaV(const std::vector<Persona> personas, const std::string valor){
 
-const Persona buscarLongevaV(std::vector<Persona> personas, std::string valor) {
-    if (personas.empty()) {
-        return personas[0];
-    }
 
-    if (valor == "pais") {
-        Persona longeva = personas[0];
-        for (auto p : personas) {
-            if (parseFecha(p.getFechaNacimiento()) < parseFecha(longeva.getFechaNacimiento())) {
-                longeva = p;
-            }
-        }
-        return longeva;
-    }
 
-    std::vector<Persona> filtradas;
-    for (auto p : personas) {
-        if (p.getCiudadNacimiento() == valor) {
-            filtradas.push_back(p);
-        }
-    }
-
-    if (filtradas.empty()) {
-        std::cout << "No hay personas registradas en " << valor << ".\n";
-        return personas[0];
-    }
-
-    Persona longeva = filtradas[0];
-    for (auto p : filtradas) {
-        if (parseFecha(p.getFechaNacimiento()) < parseFecha(longeva.getFechaNacimiento())) {
-            longeva = p;
-        }
-    }
-    return longeva;
 }
 
 
-const Persona buscarMayorPatrimonioV(const std::vector<Persona> personas, const std::string valor, const int opcion){
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const Persona buscarMayorPatrimonioV(const std::vector<Persona> personas, std::string valor, int opcion) {
+
+    auto coincide = [opcion, valor](Persona p) -> bool {
+        if (opcion == 0) {
+            return true; // sin filtro
+        } else if (opcion == 1) {
+            return p.getCiudadNacimiento() == valor;
+        } else if (opcion == 2) {
+            if (valor.empty()) return false;
+            return p.getGrupo() == valor[0];
+        }
+        return false; // opción inválida
+    };
+
+    Persona mejor = personas[0]; // primer elemento como base
+
+    for (Persona p : personas) { // recorrido por valor O(n)
+        if (coincide(p) && p.getPatrimonio() > mejor.getPatrimonio()) {
+            mejor = p; // nueva copia del mejor
+        }
+    }
+
+    return mejor; // retorno por valor
+
+}
+
+
+const Persona* buscarMayorPatrimonioV(const std::vector<Persona>& personas, const std::string& valor, int opcion) {
+    auto coincide = [&](const Persona& p) -> bool {
+        if (opcion == 0) {
+            return true;
+        } else if (opcion == 1) {
+            return p.getCiudadNacimiento() == valor;
+        } else if (opcion == 2) {
+            if (valor.empty()) return false;
+            return p.getGrupo() == valor[0];
+        }
+        return false;
+    };
+
+    const Persona* mejor = nullptr;
+
+    for (const Persona& p : personas) {
+        if (!coincide(p)) continue;
+        if (mejor == nullptr || p.getPatrimonio() > mejor->getPatrimonio()) {
+            mejor = &p;
+        }
+    }
+
+    return mejor;
 }
 
 const Persona buscarDeclarantesV(const std::vector<Persona> personas, const std::string id){
