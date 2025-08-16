@@ -253,7 +253,7 @@ const Persona buscarMayorPatrimonioV(const std::vector<Persona> personas, std::s
 }
 
 
-const Persona* buscarMayorPatrimonioF(const std::vector<Persona>& personas, const std::string& valor, int opcion) {
+const Persona* buscarMayorPatrimonioR(const std::vector<Persona>& personas, const std::string& valor, int opcion) {
     auto coincide = [&](const Persona& p) -> bool {
         if (opcion == 0) {
             return true;

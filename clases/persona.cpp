@@ -51,6 +51,9 @@ void Persona::mostrar() const {
  */
 void Persona::mostrarResumen() const {
     std::cout << "[" << id << "] " << nombre << " " << apellido
+              << " | " << fechaNacimiento
               << " | " << ciudadNacimiento 
-              << " | $" << std::fixed << std::setprecision(2) << ingresosAnuales;
+              << " | $" << std::fixed << std::setprecision(2) << ingresosAnuales
+              << " | " << patrimonio
+              << " | Declara: " << (declaranteRenta ? "Sí" : "No") << " Grupo: " << grupo;
 }
