@@ -481,3 +481,48 @@ void ciudadMenorIngresoPromedioR(const std::vector<Persona>& personas, std::stri
         }
     }
 }
+
+const Persona buscarMasJovenDeclaranteV(std::vector<Persona> personas) {
+
+    std::vector<Persona> declarantes;
+    for (auto p : personas) {  
+        if (p.getDeclaranteRenta()) {
+            declarantes.push_back(p);
+        }
+    }
+
+    if (declarantes.empty()) {
+        std::cout << "No hay personas que declaren renta.\n";
+        return personas[0];
+    }
+
+    Persona masJoven = declarantes[0];
+    for (auto p : declarantes) {  
+        if (parseFecha(p.getFechaNacimiento()) > parseFecha(masJoven.getFechaNacimiento())) {
+            masJoven = p;
+        }
+    }
+
+    return masJoven;
+}
+
+const Persona* buscarMasJovenDeclaranteR(const std::vector<Persona>& personas) {
+
+    const Persona* masJoven = nullptr;
+
+    for (const auto& p : personas) { 
+        if (p.getDeclaranteRenta()) {
+            if (masJoven == nullptr || 
+                parseFecha(p.getFechaNacimiento()) > parseFecha(masJoven->getFechaNacimiento())) {
+                masJoven = &p;
+            }
+        }
+    }
+
+    if (masJoven == nullptr) {
+        std::cout << "No hay personas que declaren renta.\n";
+        return masJoven;
+    }
+
+    return masJoven;
+}

@@ -81,5 +81,7 @@ double porcentajePatrimonioMayor650MV(const std::vector<Persona> personas);
 void porcentajePatrimonioMayor650MR(const std::vector<Persona>& personas, double& porcentaje);
 std::string ciudadMenorIngresoPromedioV(const std::vector<Persona> personas);
 void ciudadMenorIngresoPromedioR(const std::vector<Persona>& personas, std::string& ciudad);
+const Persona* buscarMasJovenDeclaranteR(const std::vector<Persona>& personas);
+const Persona buscarMasJovenDeclaranteV(std::vector<Persona> personas);
 
 #endif // GENERADOR_H

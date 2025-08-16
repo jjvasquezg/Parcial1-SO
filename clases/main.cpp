@@ -38,7 +38,7 @@ void mostrarMenuBusqueda() {
     std::cout << "\n6. Verificar grupo de declaración (Por ID)";
     std::cout << "\n7. % Personas con patrimonio mayor a 650 M";
     std::cout << "\n8. Ciudad con menos ingresos en promedio";
-    std::cout << "\n9. ------";
+    std::cout << "\n9. Persona más joven (Por declarantes)";
     std::cout << "\n10. Volver";
     std::cout << "\nSeleccione una opción: ";
 
@@ -512,7 +512,35 @@ int main() {
                             break;
                         }
 
-                        case 9:
+                        case 9: { // Persona más joven (Por declarantes) Tanto valor como referencia
+
+                            // VALOR
+                            monitor.iniciar_tiempo();
+                            long memoria_inicio = monitor.obtener_memoria();
+                            
+                            auto encontrada = buscarMasJovenDeclaranteV(personasValor);
+                            encontrada.mostrar();
+
+                            double tiempo_busqueda = monitor.detener_tiempo();
+                            long memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
+                            monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB) + " Valor", tiempo_busqueda, memoria_busqueda);
+                            monitor.registrarV("Persona más joven (Por declarantes) VALOR", tiempo_busqueda, memoria_busqueda);
+
+                            // REFERENCIA
+                            monitor.iniciar_tiempo();
+                            memoria_inicio = monitor.obtener_memoria();
+
+                            const Persona* encontradaR = buscarMasJovenDeclaranteR(*personas);
+                            encontradaR->mostrar();
+                            
+                            tiempo_busqueda = monitor.detener_tiempo();
+                            memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
+                            monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB) + " Referencia", tiempo_busqueda, memoria_busqueda);
+                            monitor.registrarR("Persona más joven (Por declarantes) REFERENCIA", tiempo_busqueda, memoria_busqueda);
+                            break;
+
+                        }
+
                             break;
                         case 10:
                             std::cout << "Volviendo...\n";
