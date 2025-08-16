@@ -532,7 +532,8 @@ int main() {
                 break;
                 
             case 6: // Exportar estadísticas a CSV
-                monitor.exportar_csv();
+                monitor.exportar_csvV();
+                monitor.exportar_csvR();
                 break;
                 
             case 7: // Salir

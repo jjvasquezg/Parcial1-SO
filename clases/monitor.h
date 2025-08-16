@@ -25,7 +25,8 @@ public:
     void mostrar_estadistica(const std::string& operacion, double tiempo, long memoria);
     void mostrar_resumenV();
     void mostrar_resumenR();
-    void exportar_csv(const std::string& nombre_archivo = "estadisticas.csv");
+    void exportar_csvV(const std::string& nombre_archivo = "estadisticasValor.csv");
+    void exportar_csvR(const std::string& nombre_archivo = "estadisticasReferencia.csv");
 
 private:
     // Estructura para almacenar métricas de una operación

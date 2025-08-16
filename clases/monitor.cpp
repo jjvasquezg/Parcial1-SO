@@ -123,8 +123,8 @@ void Monitor::mostrar_resumenR() {
  * PARA QUÉ: Generar reportes y gráficos.
  * @param nombre_archivo Nombre del archivo CSV (por defecto "estadisticas.csv")
  */
-void Monitor::exportar_csv(const std::string& nombre_archivo) {
-    std::ofstream archivo(nombre_archivo + "val");
+void Monitor::exportar_csvV(const std::string& nombre_archivo) {
+    std::ofstream archivo(nombre_archivo);
     if (!archivo) {
         std::cerr << "Error al abrir archivo: " << nombre_archivo << std::endl;
         return;
@@ -132,12 +132,16 @@ void Monitor::exportar_csv(const std::string& nombre_archivo) {
     archivo << "Operacion,Tiempo(ms),Memoria(KB)\n";
     for (const auto& reg : registrosV) {
         archivo << reg.operacion << "," << reg.tiempo << "," << reg.memoria << "\n";
+    }
+    archivo.close();
+    std::cout << "Estadísticas exportadas a sus archivos respectivos" << "\n";
+}
 
-    std::ofstream archivo(nombre_archivo+" ref");
+void Monitor::exportar_csvR(const std::string& nombre_archivo) {
+    std::ofstream archivo(nombre_archivo);
     if (!archivo) {
         std::cerr << "Error al abrir archivo: " << nombre_archivo << std::endl;
         return;
-    }
     }
     for (const auto& reg : registrosR) {
         archivo << reg.operacion << "," << reg.tiempo << "," << reg.memoria << "\n";

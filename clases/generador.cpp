@@ -355,13 +355,18 @@ void validarDeclarantesV(const std::vector<Persona> personas, std::string id){
     bool band = false;
 
     for(Persona p : personas){
-        if(p.getId() == id){ 
-            char grupo = asignarGrupo(id);
-            if (grupo == 'A' || grupo == 'B' || grupo == 'C') {
-                std::cout << "\nLa persona existe y su tipo de grupo es: " 
-                          << grupo <<  std::endl;
-                p.mostrarResumen();
-                std::cout << "\n";
+        if (p.getId() == id) {
+            if (p.getDeclaranteRenta()){
+                char grupo = asignarGrupo(id);
+                if (grupo == 'A' || grupo == 'B' || grupo == 'C') {
+                    std::cout << "\nLa persona existe y su tipo de grupo es: " 
+                                << grupo << std::endl;
+                    p.mostrarResumen();
+                    std::cout << "\n";
+                    band = true;
+                }
+            } else {
+                std::cout << "\nLa persona existe pero no es declarante";
                 band = true;
             }
         }
@@ -383,12 +388,17 @@ void validarDeclarantesR(const std::vector<Persona>& personas, const std::string
 
     for (const Persona& p : personas) {
         if (p.getId() == id) {
-            char grupo = asignarGrupo(id);
-            if (grupo == 'A' || grupo == 'B' || grupo == 'C') {
-                std::cout << "\nLa persona existe y su tipo de grupo es: " 
-                          << grupo << std::endl;
-                p.mostrarResumen();
-                std::cout << "\n";
+            if (p.getDeclaranteRenta()){
+                char grupo = asignarGrupo(id);
+                if (grupo == 'A' || grupo == 'B' || grupo == 'C') {
+                    std::cout << "\nLa persona existe y su tipo de grupo es: " 
+                                << grupo << std::endl;
+                    p.mostrarResumen();
+                    std::cout << "\n";
+                    band = true;
+                }
+            } else {
+                std::cout << "\nLa persona existe pero no es declarante";
                 band = true;
             }
         }
