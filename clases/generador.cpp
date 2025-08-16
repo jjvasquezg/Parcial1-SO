@@ -7,6 +7,7 @@
 #include <tuple>
 #include <sstream>
 #include <string>
+#include <map>
 
 // Bases de datos para generación realista
 
@@ -109,7 +110,7 @@ Persona generarPersona() {
     if (declarante == true){
         grupo = asignarGrupo(id);
     }else {
-        grupo = NULL;
+        grupo = ""[0];
     }
     
     return Persona(nombre, apellido, id, ciudad, fecha, ingresos, patrimonio, deudas, declarante, grupo);
@@ -226,6 +227,37 @@ const Persona buscarLongevaV(std::vector<Persona> personas, std::string valor) {
     return longeva;
 }
 
+const Persona* buscarLongevaR(const std::vector<Persona>& personas, const std::string& valor) {
+    if (personas.empty()) {
+        throw std::runtime_error("No hay personas registradas."); // evitar UB
+    }
+
+    if (valor == "pais") {
+        const Persona* longeva = &personas[0];
+        for (const auto& p : personas) {
+            if (parseFecha(p.getFechaNacimiento()) < parseFecha(longeva->getFechaNacimiento())) {
+                longeva = &p;
+            }
+        }
+        return longeva;
+    }
+
+    const Persona* longeva = nullptr;
+    for (const auto& p : personas) {
+        if (p.getCiudadNacimiento() == valor) {
+            if (!longeva || parseFecha(p.getFechaNacimiento()) < parseFecha(longeva->getFechaNacimiento())) {
+                longeva = &p;
+            }
+        }
+    }
+
+    if (!longeva) {
+        throw std::runtime_error("No hay personas registradas en " + valor);
+    }
+
+    return longeva;
+}
+
 const Persona buscarMayorPatrimonioV(const std::vector<Persona> personas, std::string valor, int opcion) {
 
     auto coincide = [opcion, valor](Persona p) -> bool {
@@ -278,8 +310,164 @@ const Persona* buscarMayorPatrimonioR(const std::vector<Persona>& personas, cons
     return mejor;
 }
 
-const Persona buscarDeclarantesV(const std::vector<Persona> personas, const std::string id){
+// Buscar declarantes por Valor
+void buscarDeclarantesV(const std::vector<Persona> personas, char grupo){
+
+    int contador = 1;
+    std::cout << "\n=== PERSONAS EN EL GRUPO (" << grupo << ") ===\n";
+    for (Persona p : personas) {
+        if (p.getGrupo() == grupo) {
+            std::cout << contador << ". ";
+            p.mostrarResumen();
+            contador++;
+            std::cout << "\n";
+        }
+    }
+
+    std::cout << "\n";
+    std::cout << "Número de personas declarantes en el grupo " 
+    << grupo << ": " << contador-1 << std::endl;
+
+}
 
 
+// Buscar declarantes por referencia
+void buscarDeclarantesR(const std::vector<Persona>& personas, char grupo) {
+    
+    int contador = 1;
+    std::cout << "\n=== PERSONAS EN EL GRUPO (" << grupo << ") ===\n";
+    for (const Persona& p : personas) {
+        if (p.getGrupo() == grupo) {
+            std::cout << contador << ". ";
+            p.mostrarResumen();
+            contador++;
+            std::cout << "\n";
+        }
+    }
 
+    std::cout << "\n";
+    std::cout << "Número de personas declarantes en el grupo " 
+    << grupo << ": " << contador-1 << std::endl;
+}
+
+void validarDeclarantesV(const std::vector<Persona> personas, std::string id){
+
+    bool band = false;
+
+    for(Persona p : personas){
+        if(p.getId() == id){ 
+            char grupo = asignarGrupo(id);
+            if (grupo == 'A' || grupo == 'B' || grupo == 'C') {
+                std::cout << "\nLa persona existe y su tipo de grupo es: " 
+                          << grupo <<  std::endl;
+                p.mostrarResumen();
+                std::cout << "\n";
+                band = true;
+            }
+        }
+    }
+
+    if (!band) {
+        char grupo = asignarGrupo(id);
+        if (grupo != '?') {
+            std::cout << "\nEl usuario no se encontró." << std::endl;
+            std::cout << "El Id correspondería al grupo " << grupo << "\n" << std::endl;
+        }
+    }
+}
+
+// Validar declarantes por referencia
+void validarDeclarantesR(const std::vector<Persona>& personas, const std::string& id) {
+
+    bool band = false;
+
+    for (const Persona& p : personas) {
+        if (p.getId() == id) {
+            char grupo = asignarGrupo(id);
+            if (grupo == 'A' || grupo == 'B' || grupo == 'C') {
+                std::cout << "\nLa persona existe y su tipo de grupo es: " 
+                          << grupo << std::endl;
+                p.mostrarResumen();
+                std::cout << "\n";
+                band = true;
+            }
+        }
+    }
+
+    if (!band) {
+        char grupo = asignarGrupo(id);
+        if (grupo != '?') {
+            std::cout << "\nEl usuario no se encontró." << std::endl;
+            std::cout << "El Id correspondería al grupo " << grupo << std::endl;
+        }
+    }
+}
+
+double porcentajePatrimonioMayor650MV(std::vector<Persona> personas) {
+
+    int contador = 0;
+    for (auto p : personas) {
+        if (p.getPatrimonio() > 650000000) {
+            contador++;
+        }
+    }
+
+    double porcentaje = (static_cast<double>(contador) / personas.size()) * 100.0;
+    return porcentaje;
+}
+
+void porcentajePatrimonioMayor650MR(const std::vector<Persona>& personas, double& porcentaje) {
+
+    int contador = 0;
+    for (const auto& p : personas) {
+        if (p.getPatrimonio() > 650000000) {
+            contador++;
+        }
+    }
+
+    porcentaje = (static_cast<double>(contador) / personas.size()) * 100.0;
+}
+
+
+std::string ciudadMenorIngresoPromedioV(std::vector<Persona> personas) {
+
+    std::map<std::string, std::pair<double, int>> ingresosPorCiudad;
+
+    for (auto p : personas) {
+        ingresosPorCiudad[p.getCiudadNacimiento()].first += p.getIngresosAnuales();
+        ingresosPorCiudad[p.getCiudadNacimiento()].second += 1;
+    }
+
+    std::string ciudadMin;
+    double menorPromedio = std::numeric_limits<double>::max();
+
+    for (auto& par : ingresosPorCiudad) {
+        double promedio = par.second.first / par.second.second;
+        if (promedio < menorPromedio) {
+            menorPromedio = promedio;
+            ciudadMin = par.first;
+        }
+    }
+
+    return ciudadMin;
+}
+
+void ciudadMenorIngresoPromedioR(const std::vector<Persona>& personas, std::string& ciudad) {
+
+    std::map<std::string, std::pair<double, int>> ingresosPorCiudad;
+
+    for (const auto& p : personas) {
+        ingresosPorCiudad[p.getCiudadNacimiento()].first += p.getIngresosAnuales();
+        ingresosPorCiudad[p.getCiudadNacimiento()].second += 1;
+    }
+
+    double menorPromedio = std::numeric_limits<double>::max();
+
+    for (const auto& par : ingresosPorCiudad) {
+        double promedio = par.second.first / par.second.second;
+        if (promedio < menorPromedio) {
+            menorPromedio = promedio;
+            ciudad = par.first;
+        }
+    }
 }

@@ -36,8 +36,8 @@ void mostrarMenuBusqueda() {
     std::cout << "\n4. Persona con mayor patrimonio (Por grupo A, B, C)";
     std::cout << "\n5. Declarantes de renta (Por grupo A, B, C)";
     std::cout << "\n6. Verificar grupo de declaración (Por ID)";
-    std::cout << "\n7. ------";
-    std::cout << "\n8. ------";
+    std::cout << "\n7. % Personas con patrimonio mayor a 650 M";
+    std::cout << "\n8. Ciudad con menos ingresos en promedio";
     std::cout << "\n9. ------";
     std::cout << "\n10. Volver";
     std::cout << "\nSeleccione una opción: ";
@@ -84,10 +84,6 @@ int main() {
         int indice;
         std::string idBusqueda;
         
-        // Iniciar medición de tiempo y memoria para la operación actual
-        monitor.iniciar_tiempo();
-        long memoria_inicio = monitor.obtener_memoria();
-        
         switch(opcion) {
             case 0: { // Crear nuevo conjunto de datos
                 int n;
@@ -98,6 +94,8 @@ int main() {
                     std::cout << "Error: Debe generar al menos 1 persona\n";
                     break;
                 }
+                monitor.iniciar_tiempo();
+                long memoria_inicio = monitor.obtener_memoria();
                 
                 // Generar el nuevo conjunto de personas
                 auto nuevasPersonas = generarColeccion(n);
@@ -111,11 +109,10 @@ int main() {
                 double tiempo_gen = monitor.detener_tiempo();
                 long memoria_gen = monitor.obtener_memoria() - memoria_inicio;
                 
-                std::cout << "Generadas " << tam << " personas en " 
-                          << tiempo_gen << " ms, Memoria: " << memoria_gen << " KB\n";
-                
                 // Registrar la operación
-                monitor.registrar("Crear datos", tiempo_gen, memoria_gen);
+                monitor.mostrar_estadistica("Opción " + std::to_string(opcion), tiempo_gen, memoria_gen);
+                monitor.registrarV("Crear datos", tiempo_gen, memoria_gen);
+                monitor.registrarR("Crear datos", tiempo_gen, memoria_gen);
                 break;
             }
                 
@@ -124,7 +121,9 @@ int main() {
                     std::cout << "\nNo hay datos disponibles. Use opción 0 primero.\n";
                     break;
                 }
-                
+                monitor.iniciar_tiempo();
+                long memoria_inicio = monitor.obtener_memoria();
+
                 tam = personas->size();
                 std::cout << "\n=== RESUMEN DE PERSONAS (" << tam << ") ===\n";
                 for(size_t i = 0; i < tam; ++i) {
@@ -135,7 +134,9 @@ int main() {
                 
                 double tiempo_mostrar = monitor.detener_tiempo();
                 long memoria_mostrar = monitor.obtener_memoria() - memoria_inicio;
-                monitor.registrar("Mostrar resumen", tiempo_mostrar, memoria_mostrar);
+                monitor.mostrar_estadistica("Opción " + std::to_string(opcion), tiempo_mostrar, memoria_mostrar);
+                monitor.registrarV("Mostrar resumen", tiempo_mostrar, memoria_mostrar);
+                monitor.registrarR("Mostrar resumen", tiempo_mostrar, memoria_mostrar);
                 break;
             }
                 
@@ -144,7 +145,9 @@ int main() {
                     std::cout << "\nNo hay datos disponibles. Use opción 0 primero.\n";
                     break;
                 }
-                
+                monitor.iniciar_tiempo();
+                long memoria_inicio = monitor.obtener_memoria();
+
                 tam = personas->size();
                 std::cout << "\nIngrese el índice (0-" << tam-1 << "): ";
                 if(std::cin >> indice) {
@@ -161,7 +164,9 @@ int main() {
                 
                 double tiempo_detalle = monitor.detener_tiempo();
                 long memoria_detalle = monitor.obtener_memoria() - memoria_inicio;
-                monitor.registrar("Mostrar detalle", tiempo_detalle, memoria_detalle);
+                monitor.mostrar_estadistica("Opción " + std::to_string(opcion), tiempo_detalle, memoria_detalle);
+                monitor.registrarV("Mostrar detalle", tiempo_detalle, memoria_detalle);
+                monitor.registrarR("Mostrar detalle", tiempo_detalle, memoria_detalle);
                 break;
             }
                 
@@ -173,7 +178,10 @@ int main() {
                 
                 std::cout << "\nIngrese el ID a buscar: ";
                 std::cin >> idBusqueda;
-                
+
+                monitor.iniciar_tiempo();
+                long memoria_inicio = monitor.obtener_memoria();
+
                 if(const Persona* encontrada = buscarPorID(*personas, idBusqueda)) {
                     encontrada->mostrar();
                 } else {
@@ -182,7 +190,9 @@ int main() {
                 
                 double tiempo_busqueda = monitor.detener_tiempo();
                 long memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
-                monitor.registrar("Buscar por ID", tiempo_busqueda, memoria_busqueda);
+                monitor.mostrar_estadistica("Opción " + std::to_string(opcion), tiempo_busqueda, memoria_busqueda);
+                monitor.registrarV("Buscar por ID", tiempo_busqueda, memoria_busqueda);
+                monitor.registrarR("Buscar por ID", tiempo_busqueda, memoria_busqueda);
                 break;
             }
             case 4:
@@ -198,17 +208,29 @@ int main() {
                     switch (opcionB) {
                         case 0: { // Persona más longeva (En todo el país) Tanto valor como referencia
                             valor = "pais";
+                            // VALOR
                             monitor.iniciar_tiempo();
                             long memoria_inicio = monitor.obtener_memoria();
 
                             auto encontrada = buscarLongevaV(personasValor, valor);
-                            // std::cout<<encontrada.getFechaNacimiento()<<std::endl;
                             encontrada.mostrar();
 
                             double tiempo_busqueda = monitor.detener_tiempo();
                             long memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
-                            monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB), tiempo_busqueda, memoria_busqueda);
-                            monitor.registrar("Persona más longeva (En todo el país) VALOR", tiempo_busqueda, memoria_busqueda);
+                            monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB) + " Valor", tiempo_busqueda, memoria_busqueda);
+                            monitor.registrarV("Persona más longeva (En todo el país) VALOR", tiempo_busqueda, memoria_busqueda);
+
+                            // REFERENCIA
+                            monitor.iniciar_tiempo();
+                            memoria_inicio = monitor.obtener_memoria();
+
+                            const Persona* encontradaR = buscarLongevaR(*personas, valor);
+                            encontradaR->mostrar();
+                            
+                            tiempo_busqueda = monitor.detener_tiempo();
+                            memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
+                            monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB) + " Referencia", tiempo_busqueda, memoria_busqueda);
+                            monitor.registrarR("Persona más longeva (En todo el país) REFERENCIA", tiempo_busqueda, memoria_busqueda);
                             break;
                         }
 
@@ -224,6 +246,7 @@ int main() {
                                 std::cin >> valor;
                                 it = std::find(ciudadesColombia.begin(), ciudadesColombia.end(), valor); 
                             }
+                            // VALOR
                             monitor.iniciar_tiempo();
                             long memoria_inicio = monitor.obtener_memoria();
                             
@@ -232,8 +255,20 @@ int main() {
 
                             double tiempo_busqueda = monitor.detener_tiempo();
                             long memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
-                            monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB), tiempo_busqueda, memoria_busqueda);
-                            monitor.registrar("Persona más longeva (Por ciudad) VALOR", tiempo_busqueda, memoria_busqueda);
+                            monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB) + " Valor", tiempo_busqueda, memoria_busqueda);
+                            monitor.registrarV("Persona más longeva (Por ciudad) VALOR", tiempo_busqueda, memoria_busqueda);
+
+                            // REFERENCIA
+                            monitor.iniciar_tiempo();
+                            memoria_inicio = monitor.obtener_memoria();
+
+                            const Persona* encontradaR = buscarLongevaR(*personas, valor);
+                            encontradaR->mostrar();
+                            
+                            tiempo_busqueda = monitor.detener_tiempo();
+                            memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
+                            monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB) + " Referencia", tiempo_busqueda, memoria_busqueda);
+                            monitor.registrarR("Persona más longeva (Por ciudad) REFERENCIA", tiempo_busqueda, memoria_busqueda);
                             break;
 
                         }
@@ -245,22 +280,24 @@ int main() {
                             long memoria_inicio = monitor.obtener_memoria();
 
                             auto encontrada = buscarMayorPatrimonioV(personasValor, valor, 0);
+                            encontrada.mostrar();
                             
                             double tiempo_busqueda = monitor.detener_tiempo();
                             long memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
                             monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB) + " Valor", tiempo_busqueda, memoria_busqueda);
-                            monitor.registrar("Persona con mayor patrimonio (En todo el país) VALOR", tiempo_busqueda, memoria_busqueda);
+                            monitor.registrarV("Persona con mayor patrimonio (En todo el país) VALOR", tiempo_busqueda, memoria_busqueda);
 
                             // REFERENCIA
                             monitor.iniciar_tiempo();
                             memoria_inicio = monitor.obtener_memoria();
 
                             const Persona* encontradaR = buscarMayorPatrimonioR(*personas, valor, 0);
+                            encontradaR->mostrar();
                             
                             tiempo_busqueda = monitor.detener_tiempo();
                             memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
                             monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB) + " Referencia", tiempo_busqueda, memoria_busqueda);
-                            monitor.registrar("Persona con mayor patrimonio (En todo el país) REFERENCIA", tiempo_busqueda, memoria_busqueda);
+                            monitor.registrarR("Persona con mayor patrimonio (En todo el país) REFERENCIA", tiempo_busqueda, memoria_busqueda);
                             break;
 
                         }
@@ -285,18 +322,19 @@ int main() {
                             double tiempo_busqueda = monitor.detener_tiempo();
                             long memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
                             monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB) + " Valor", tiempo_busqueda, memoria_busqueda);
-                            monitor.registrar("Persona con mayor patrimonio (Por ciudad) VALOR", tiempo_busqueda, memoria_busqueda);
+                            monitor.registrarV("Persona con mayor patrimonio (Por ciudad) VALOR", tiempo_busqueda, memoria_busqueda);
 
                             // REFERENCIA
                             monitor.iniciar_tiempo();
                             memoria_inicio = monitor.obtener_memoria();
 
                             const Persona* encontradaR = buscarMayorPatrimonioR(*personas, valor, 1);
+                            encontradaR->mostrar();
                             
                             tiempo_busqueda = monitor.detener_tiempo();
                             memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
                             monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB) + " Referencia", tiempo_busqueda, memoria_busqueda);
-                            monitor.registrar("Persona con mayor patrimonio (Por ciudad) REFERENCIA", tiempo_busqueda, memoria_busqueda);
+                            monitor.registrarR("Persona con mayor patrimonio (Por ciudad) REFERENCIA", tiempo_busqueda, memoria_busqueda);
                             break;
 
                         }
@@ -321,29 +359,159 @@ int main() {
                             double tiempo_busqueda = monitor.detener_tiempo();
                             long memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
                             monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB) + " Valor", tiempo_busqueda, memoria_busqueda);
-                            monitor.registrar("Persona con mayor patrimonio (Por grupo) VALOR", tiempo_busqueda, memoria_busqueda);
+                            monitor.registrarV("Persona con mayor patrimonio (Por grupo) VALOR", tiempo_busqueda, memoria_busqueda);
+
                             // REFERENCIA
                             monitor.iniciar_tiempo();
                             memoria_inicio = monitor.obtener_memoria();
 
                             const Persona* encontradaR = buscarMayorPatrimonioR(*personas, valor, 2);
+                            encontradaR->mostrar();
                             
                             tiempo_busqueda = monitor.detener_tiempo();
                             memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
                             monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB) + " Referencia", tiempo_busqueda, memoria_busqueda);
-                            monitor.registrar("Persona con mayor patrimonio (Por grupo) REFERENCIA", tiempo_busqueda, memoria_busqueda);
+                            monitor.registrarR("Persona con mayor patrimonio (Por grupo) REFERENCIA", tiempo_busqueda, memoria_busqueda);
                             break;
 
                         }
 
-                        case 5:
+                        case 5: { // Declarantes de renta (Por grupo A, B, C)
+                            mostrarGrupos();
+                            std::cin >> valor;
+                            
+                            while (valor[0] != 'A' && valor[0] != 'B' && valor[0] != 'C') {
+                                std::cout << "El grupo ingresado (" << valor << ") no existe en la lista.\n";
+                                std::cout << "Ingrese una opción: ";
+                                std::cin >> valor;
+                            }
+
+                            // VALOR
+                            monitor.iniciar_tiempo();
+                            long memoria_inicio = monitor.obtener_memoria();
+                            
+                            buscarDeclarantesV(personasValor, valor[0]);
+
+                            double tiempo_busqueda = monitor.detener_tiempo();
+                            long memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
+                            monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB) + " Valor", tiempo_busqueda, memoria_busqueda);
+                            monitor.registrarV("Declarantes de renta (Por grupo) VALOR", tiempo_busqueda, memoria_busqueda);
+
+                            // REFERENCIA
+                            monitor.iniciar_tiempo();
+                            memoria_inicio = monitor.obtener_memoria();
+
+                            buscarDeclarantesR(*personas, valor[0]);
+                            
+                            tiempo_busqueda = monitor.detener_tiempo();
+                            memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
+                            monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB) + " Referencia", tiempo_busqueda, memoria_busqueda);
+                            monitor.registrarR("Declarantes de renta (Por grupo) REFERENCIA", tiempo_busqueda, memoria_busqueda);
                             break;
-                        case 6:
+
+                        }
+
+                        case 6: { // Verificar grupo de declaración (Por ID)
+                            int id;
+
+                            while (true) {
+                                std::cout << "Ingresa un ID válido: ";
+                                std::cin >> valor;
+                                try {
+                                    id = std::stoi(valor);
+                                    break;                      
+                                } catch (std::invalid_argument&) {
+                                    std::cout << "Entrada inválida: no es un número.\n";
+                                } catch (std::out_of_range&) {
+                                    std::cout << "Número fuera del rango permitido.\n";
+                                }
+                            }
+
+                            if (valor.size() <= 1){
+                                std::cout << "Tamaño de cadena no valido";
+                                break;
+                            }
+
+                            // VALOR
+                            monitor.iniciar_tiempo();
+                            long memoria_inicio = monitor.obtener_memoria();
+                            
+                            validarDeclarantesV(personasValor, valor);
+
+                            double tiempo_busqueda = monitor.detener_tiempo();
+                            long memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
+                            monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB) + " Valor", tiempo_busqueda, memoria_busqueda);
+                            monitor.registrarV("Verificar grupo de declaración (Por ID) VALOR", tiempo_busqueda, memoria_busqueda);
+
+                            // REFERENCIA
+                            monitor.iniciar_tiempo();
+                            memoria_inicio = monitor.obtener_memoria();
+
+                            validarDeclarantesR(*personas, valor);
+                            
+                            tiempo_busqueda = monitor.detener_tiempo();
+                            memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
+                            monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB) + " Referencia", tiempo_busqueda, memoria_busqueda);
+                            monitor.registrarR("Verificar grupo de declaración (Por ID) REFERENCIA", tiempo_busqueda, memoria_busqueda);
                             break;
-                        case 7:
+                        }
+
+                        case 7: { // % Personas con patrimonio mayor a 650 M
+                            // VALOR
+                            monitor.iniciar_tiempo();
+                            long memoria_inicio = monitor.obtener_memoria();
+                            
+                            const double porcentaje = porcentajePatrimonioMayor650MV(personasValor);
+                            std::cout << "\nPorcentaje de personas millonarias con patrimonio mayor 650 Millones: " << porcentaje << "%\n";
+
+                            double tiempo_busqueda = monitor.detener_tiempo();
+                            long memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
+                            monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB) + " Valor", tiempo_busqueda, memoria_busqueda);
+                            monitor.registrarV("% Personas con patrimonio mayor a 650 M VALOR", tiempo_busqueda, memoria_busqueda);
+
+                            // REFERENCIA
+                            monitor.iniciar_tiempo();
+                            memoria_inicio = monitor.obtener_memoria();
+
+                            double porcentajeR = 0.0;
+                            porcentajePatrimonioMayor650MR(*personas, porcentajeR);
+                            std::cout << "\nPorcentaje de personas millonarias con patrimonio mayor 650 Millones: " << porcentajeR << "%\n";
+                            
+                            tiempo_busqueda = monitor.detener_tiempo();
+                            memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
+                            monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB) + " Referencia", tiempo_busqueda, memoria_busqueda);
+                            monitor.registrarR("% Personas con patrimonio mayor a 650 M REFERENCIA", tiempo_busqueda, memoria_busqueda);
                             break;
-                        case 8:
+                        }
+
+                        case 8: { // Ciudad con menos ingresos en promedio
+                            // VALOR
+                            monitor.iniciar_tiempo();
+                            long memoria_inicio = monitor.obtener_memoria();
+                            
+                            const std::string ciudad = ciudadMenorIngresoPromedioV(personasValor);
+                            std::cout << "\nCiudad con menos ingresos en promedio: " << ciudad << "\n";
+
+                            double tiempo_busqueda = monitor.detener_tiempo();
+                            long memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
+                            monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB) + " Valor", tiempo_busqueda, memoria_busqueda);
+                            monitor.registrarV("Ciudad con menos ingresos en promedio VALOR", tiempo_busqueda, memoria_busqueda);
+
+                            // REFERENCIA
+                            monitor.iniciar_tiempo();
+                            memoria_inicio = monitor.obtener_memoria();
+
+                            std::string ciudadR;
+                            ciudadMenorIngresoPromedioR(*personas, ciudadR);
+                            std::cout << "\nCiudad con menos ingresos en promedio: " << ciudadR << "\n";
+                            
+                            tiempo_busqueda = monitor.detener_tiempo();
+                            memoria_busqueda = monitor.obtener_memoria() - memoria_inicio;
+                            monitor.mostrar_estadistica("Opción 4." + std::to_string(opcionB) + " Referencia", tiempo_busqueda, memoria_busqueda);
+                            monitor.registrarR("Ciudad con menos ingresos en promedio REFERENCIA", tiempo_busqueda, memoria_busqueda);
                             break;
+                        }
+
                         case 9:
                             break;
                         case 10:
@@ -356,10 +524,11 @@ int main() {
 
                 } while (opcionB != 10);
 
-            break;
+                break;
 
             case 5: // Mostrar estadísticas de rendimiento
-                monitor.mostrar_resumen();
+                monitor.mostrar_resumenV();
+                monitor.mostrar_resumenR();
                 break;
                 
             case 6: // Exportar estadísticas a CSV
@@ -372,13 +541,6 @@ int main() {
                 
             default:
                 std::cout << "Opción inválida!\n";
-        }
-        
-        // Mostrar estadísticas de la operación (excepto para opciones 4,5,6)
-        if (opcion >= 0 && opcion <= 3) {
-            double tiempo = monitor.detener_tiempo();
-            long memoria = monitor.obtener_memoria() - memoria_inicio;
-            monitor.mostrar_estadistica("Opción " + std::to_string(opcion), tiempo, memoria);
         }
         
     } while(opcion != 7);

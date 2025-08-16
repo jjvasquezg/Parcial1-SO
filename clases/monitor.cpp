@@ -63,12 +63,16 @@ long Monitor::obtener_memoria() {
  * CÓMO: Guardando un nuevo Registro en el vector y actualizando acumulados.
  * PARA QUÉ: Tener un histórico de rendimiento.
  */
-void Monitor::registrar(const std::string& operacion, double tiempo, long memoria) {
-    registros.push_back({operacion, tiempo, memoria});
-    total_tiempo += tiempo;
-    if (memoria > max_memoria) {
-        max_memoria = memoria;
-    }
+void Monitor::registrarV(const std::string& operacion, double tiempo, long memoria) {
+    registrosV.push_back({operacion, tiempo, memoria});
+    total_tiempoV += tiempo;
+    max_memoriaV += memoria;
+}
+
+void Monitor::registrarR(const std::string& operacion, double tiempo, long memoria) {
+    registrosR.push_back({operacion, tiempo, memoria});
+    total_tiempoR += tiempo;
+    max_memoriaR += memoria;
 }
 
 /**
@@ -91,14 +95,24 @@ void Monitor::mostrar_estadistica(const std::string& operacion, double tiempo, l
  * CÓMO: Iterando sobre todos los registros e imprimiéndolos.
  * PARA QUÉ: Análisis comparativo de diferentes operaciones.
  */
-void Monitor::mostrar_resumen() {
-    std::cout << "\n=== RESUMEN DE ESTADÍSTICAS ===";
-    for (const auto& reg : registros) {
+void Monitor::mostrar_resumenV() {
+    std::cout << "\n=== RESUMEN DE ESTADÍSTICAS VALOR ===";
+    for (const auto& reg : registrosV) {
         std::cout << "\n" << reg.operacion << ": "
                   << reg.tiempo << " ms, " << reg.memoria << " KB";
     }
-    std::cout << "\nTotal tiempo: " << total_tiempo << " ms";
-    std::cout << "\nMemoria máxima: " << max_memoria << " KB\n";
+    std::cout << "\nTotal tiempo: " << total_tiempoV << " ms";
+    std::cout << "\nMemoria máxima: " << max_memoriaV << " KB\n";
+}
+
+void Monitor::mostrar_resumenR() {
+    std::cout << "\n=== RESUMEN DE ESTADÍSTICAS REFERENCIA ===";
+    for (const auto& reg : registrosR) {
+        std::cout << "\n" << reg.operacion << ": "
+                  << reg.tiempo << " ms, " << reg.memoria << " KB";
+    }
+    std::cout << "\nTotal tiempo: " << total_tiempoR << " ms";
+    std::cout << "\nMemoria máxima: " << max_memoriaR << " KB\n";
 }
 
 /**
@@ -110,15 +124,24 @@ void Monitor::mostrar_resumen() {
  * @param nombre_archivo Nombre del archivo CSV (por defecto "estadisticas.csv")
  */
 void Monitor::exportar_csv(const std::string& nombre_archivo) {
-    std::ofstream archivo(nombre_archivo);
+    std::ofstream archivo(nombre_archivo + "val");
     if (!archivo) {
         std::cerr << "Error al abrir archivo: " << nombre_archivo << std::endl;
         return;
     }
     archivo << "Operacion,Tiempo(ms),Memoria(KB)\n";
-    for (const auto& reg : registros) {
+    for (const auto& reg : registrosV) {
+        archivo << reg.operacion << "," << reg.tiempo << "," << reg.memoria << "\n";
+
+    std::ofstream archivo(nombre_archivo+" ref");
+    if (!archivo) {
+        std::cerr << "Error al abrir archivo: " << nombre_archivo << std::endl;
+        return;
+    }
+    }
+    for (const auto& reg : registrosR) {
         archivo << reg.operacion << "," << reg.tiempo << "," << reg.memoria << "\n";
     }
     archivo.close();
-    std::cout << "Estadísticas exportadas a " << nombre_archivo << "\n";
+    std::cout << "Estadísticas exportadas a sus archivos respectivos" << "\n";
 }

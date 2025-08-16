@@ -20,9 +20,11 @@ public:
     double detener_tiempo();
     long obtener_memoria();
     
-    void registrar(const std::string& operacion, double tiempo, long memoria);
+    void registrarV(const std::string& operacion, double tiempo, long memoria);
+    void registrarR(const std::string& operacion, double tiempo, long memoria);
     void mostrar_estadistica(const std::string& operacion, double tiempo, long memoria);
-    void mostrar_resumen();
+    void mostrar_resumenV();
+    void mostrar_resumenR();
     void exportar_csv(const std::string& nombre_archivo = "estadisticas.csv");
 
 private:
@@ -34,9 +36,12 @@ private:
     };
     
     std::chrono::high_resolution_clock::time_point inicio; // Punto de inicio del cronómetro
-    std::vector<Registro> registros; // Historial de registros
-    double total_tiempo = 0;         // Tiempo total acumulado
-    long max_memoria = 0;            // Máximo de memoria utilizado
+    std::vector<Registro> registrosV; // Historial de registros
+    std::vector<Registro> registrosR;
+    double total_tiempoV = 0;         // Tiempo total acumulado
+    long max_memoriaV = 0;            // Máximo de memoria utilizado
+    double total_tiempoR = 0;         // Tiempo total acumulado
+    long max_memoriaR = 0;            // Máximo de memoria utilizado
 };
 
 #endif // MONITOR_H

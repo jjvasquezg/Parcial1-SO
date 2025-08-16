@@ -70,8 +70,16 @@ std::tuple<int,int,int> parseFecha(std::string fecha);
  */
 const Persona* buscarPorID(const std::vector<Persona>& personas, const std::string& id);
 const Persona buscarLongevaV(const std::vector<Persona> personas, std::string valor);
+const Persona* buscarLongevaR(const std::vector<Persona>& personas, const std::string& valor);
 const Persona buscarMayorPatrimonioV(const std::vector<Persona> personas, std::string valor, int opcion);
 const Persona* buscarMayorPatrimonioR(const std::vector<Persona>& persona, const std::string& id, int opcion);
-const Persona buscarDeclarantesV(const std::vector<Persona> personas, std::string id);
+void buscarDeclarantesV(const std::vector<Persona> personas, char grupo);
+void buscarDeclarantesR(const std::vector<Persona>& personas, char grupo);
+void validarDeclarantesV(const std::vector<Persona> personas, std::string id);
+void validarDeclarantesR(const std::vector<Persona>& personas, const std::string& id);
+double porcentajePatrimonioMayor650MV(const std::vector<Persona> personas);
+void porcentajePatrimonioMayor650MR(const std::vector<Persona>& personas, double& porcentaje);
+std::string ciudadMenorIngresoPromedioV(const std::vector<Persona> personas);
+void ciudadMenorIngresoPromedioR(const std::vector<Persona>& personas, std::string& ciudad);
 
 #endif // GENERADOR_H
