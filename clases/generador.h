@@ -4,6 +4,9 @@
 #include "persona.h"
 #include <vector>
 
+
+extern const std::vector<std::string> ciudadesColombia;
+
 // Funciones para generación de datos aleatorios
 
 /**

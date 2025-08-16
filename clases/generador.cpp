@@ -4,6 +4,9 @@
 #include <random>    // std::mt19937, std::uniform_real_distribution
 #include <vector>
 #include <algorithm> // std::find_if
+#include <tuple>
+#include <sstream>
+#include <string>
 
 // Bases de datos para generación realista
 
@@ -179,11 +182,50 @@ const Persona* buscarPorID(const std::vector<Persona>& personas, const std::stri
     }
 }
 
-const Persona buscarLongevaV(const std::vector<Persona> personas, const std::string valor){
-
-
-
+std::tuple<int,int,int> parseFecha(std::string fecha) {
+    int d, m, a;
+    char sep;
+    std::istringstream iss(fecha);
+    iss >> d >> sep >> m >> sep >> a;
+    return {a, m, d};
 }
+
+const Persona buscarLongevaV(std::vector<Persona> personas, std::string valor) {
+    if (personas.empty()) {
+        return personas[0];
+    }
+
+    if (valor == "pais") {
+        Persona longeva = personas[0];
+        for (auto p : personas) {
+            if (parseFecha(p.getFechaNacimiento()) < parseFecha(longeva.getFechaNacimiento())) {
+                longeva = p;
+            }
+        }
+        return longeva;
+    }
+
+    std::vector<Persona> filtradas;
+    for (auto p : personas) {
+        if (p.getCiudadNacimiento() == valor) {
+            filtradas.push_back(p);
+        }
+    }
+
+    if (filtradas.empty()) {
+        std::cout << "No hay personas registradas en " << valor << ".\n";
+        return personas[0];
+    }
+
+    Persona longeva = filtradas[0];
+    for (auto p : filtradas) {
+        if (parseFecha(p.getFechaNacimiento()) < parseFecha(longeva.getFechaNacimiento())) {
+            longeva = p;
+        }
+    }
+    return longeva;
+}
+
 
 const Persona buscarMayorPatrimonioV(const std::vector<Persona> personas, const std::string valor, const int opcion){
 

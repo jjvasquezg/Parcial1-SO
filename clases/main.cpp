@@ -2,6 +2,7 @@
 #include <vector>
 #include <limits>
 #include <memory>
+#include <algorithm>
 #include "persona.h"
 #include "generador.h"
 #include "monitor.h"
@@ -198,6 +199,7 @@ int main() {
                             long memoria_inicio = monitor.obtener_memoria();
 
                             auto encontrada = buscarLongevaV(personasValor, valor);
+                            // std::cout<<encontrada.getFechaNacimiento()<<std::endl;
                             encontrada.mostrar();
 
                             double tiempo_busqueda = monitor.detener_tiempo();
@@ -209,7 +211,16 @@ int main() {
 
                         case 1: { // Persona más longeva (Por ciudad) Tanto valor como referencia
                             mostrarCiudades();
-                            std::cin >> valor; 
+                            std::cin >> valor;
+
+                            auto it = std::find(ciudadesColombia.begin(), ciudadesColombia.end(), valor);
+
+                            while (it == ciudadesColombia.end()) {
+                                std::cout << "La ciudad ingresada (" << valor << ") no existe en la lista.\n";
+                                std::cout << "Ingrese una opción: ";
+                                std::cin >> valor;
+                                it = std::find(ciudadesColombia.begin(), ciudadesColombia.end(), valor); 
+                            }
                             monitor.iniciar_tiempo();
                             long memoria_inicio = monitor.obtener_memoria();
                             
