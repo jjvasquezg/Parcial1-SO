@@ -1,58 +1,45 @@
 # parcial1so2025-2
 Parcial 1 Sistemas Operativos Semestre 2025-2
 
+## Preguntas Obligatorias
 
+### 1. Persona más longeva:
 
+La función buscarLongevaV se encarga de encontrar a la persona más longeva dentro de un conjunto de personas. Si se recibe el valor "pais", la función recorre todo el vector comparando las fechas de nacimiento para quedarse con la persona de mayor edad. En caso de que se pase una ciudad específica, primero filtra las personas que hayan nacido en esa ciudad y, entre ellas, selecciona a la más longeva. El resultado lo retorna por valor, es decir, como una copia del objeto.
 
+La función buscarLongevaR cumple la misma tarea, pero trabaja por referencia. Si el valor es "pais", recorre todas las personas del vector y guarda un puntero a la persona más longeva. Si se trata de una ciudad en particular, solo compara las personas nacidas en esa ciudad y retorna un puntero a la más longeva. De esta forma evita copias innecesarias y retorna un const Persona*.
 
+### 2. Persona con mayor patrimonio:
 
+En el caso de la función buscarMayorPatrimonioV, su propósito es encontrar la persona con el patrimonio más alto. Para lograrlo define un lambda que determina si una persona debe entrar en la búsqueda dependiendo de la opción: puede ser sin filtro, filtrando por ciudad o filtrando por grupo. Una vez definido el criterio, la función recorre el vector y compara patrimonios, quedándose con el mayor. El retorno es un objeto Persona por valor.
 
+La función buscarMayorPatrimonioR es la versión por referencia. Utiliza el mismo filtro por medio del lambda, pero en lugar de hacer copias de objetos guarda un puntero a la persona que tiene el mayor patrimonio en cada iteración, devolviendo finalmente un const Persona*.
 
+### 3. Declarantes de renta:
 
+Por otro lado, la función buscarDeclarantesV recorre la lista de personas y muestra aquellas que pertenecen a un grupo específico. Cada vez que encuentra una coincidencia imprime el resumen de la persona y al final muestra el número total de declarantes en ese grupo. La versión equivalente por referencia, buscarDeclarantesR, repite la lógica, pero recibe el vector como referencia constante y recorre con referencias para mejorar la eficiencia, evitando copias.
 
+Las funciones validarDeclarantesV y validarDeclarantesR permiten verificar si una persona existe dentro del vector a partir de su ID. En caso de encontrarla, se valida si declara renta y, de ser así, se determina a qué grupo pertenece mediante la función asignarGrupo, mostrando luego un resumen de la persona. Si existe pero no declara, se indica el caso; si no se encuentra, se informa a qué grupo pertenecería el ID ingresado. La diferencia entre ambas versiones radica en el manejo por valor o por referencia.
 
+## Preguntas Adicionales:
 
+### 1. Porcentaje de Personas con patrimonio mayor a $ 650M:
 
+La función porcentajePatrimonioMayor650MV calcula el porcentaje de personas que tienen un patrimonio superior a 650 millones. Para lograrlo recorre la lista, cuenta cuántos cumplen la condición, divide entre el total de personas y multiplica por cien, retornando un número de tipo double. 
 
+Su contraparte, porcentajePatrimonioMayor650MR, realiza exactamente el mismo cálculo, pero en vez de retornarlo lo guarda en una variable double que se pasa como argumento por referencia.
 
+### 2. Ciudad con menor Ingreso Anual promedio:
 
+En cuanto a los ingresos, la función ciudadMenorIngresoPromedioV busca la ciudad con menor ingreso promedio anual. Utiliza un mapa que acumula los ingresos y la cantidad de personas por cada ciudad, calcula el promedio correspondiente y selecciona la ciudad con el valor más bajo. Retorna el nombre de la ciudad como un string. 
 
+La versión ciudadMenorIngresoPromedioR sigue el mismo procedimiento, pero en lugar de retornar el resultado lo asigna a un string& recibido como parámetro.
 
+### 3. Declarante de renta más joven:
 
+las funciones buscarMasJovenDeclaranteV y buscarMasJovenDeclaranteR identifican a la persona más joven que declara renta. En el caso de la primera, se filtran primero las personas declarantes en un nuevo vector y luego se compara entre ellas para quedarse con la fecha de nacimiento más reciente, retornando el objeto por valor. 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+En la versión por referencia, en lugar de generar un nuevo vector, se recorre directamente la lista original y se guarda un puntero a la persona más joven que declara renta, retornando un const Persona*.
 
 ## Preguntas de Pensamiento Crítico
 
