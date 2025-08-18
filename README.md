@@ -1,6 +1,12 @@
 # README IMPORTANTE
 Parcial 1 Sistemas Operativos Semestre 2025-2
 
+## Integrantes
+
+- Juan José Vasquez
+- Santiago Alvarez
+- Sebastiang Giraldo
+
 ## Métricas y resultados:
 
 ### 1. `struct` vs `class`
