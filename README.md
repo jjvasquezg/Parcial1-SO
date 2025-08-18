@@ -1,5 +1,34 @@
-# parcial1so2025-2
+# README IMPORTANTE
 Parcial 1 Sistemas Operativos Semestre 2025-2
+
+## Métricas y resultados:
+
+### 1. `struct` vs `class`
+
+Primero veamos una pequeña comparación de `struct` y `class`
+
+| Aspecto                  | `struct`                                  | `class`                                   |
+|--------------------------|--------------------------------------------|-------------------------------------------|
+| Modificador por defecto  | `public`                                   | `private`                                  |
+| Uso común                | Datos simples, estructuras POD             | Abstracción, encapsulamiento, lógica      |
+| Herencia                 | Permitida, pero poco usada                 | Comúnmente usada                          |
+| Encapsulamiento          | Manual (con `private:` explícito)         | Por defecto                               |
+| Overhead                 | Mínimo                                     | Ligero (más con herencia/virtuales)      |
+| Velocidad de acceso      | Ligeramente mejor (menos restricciones)    | Similar, depende de diseño y acceso       |
+
+Para calcular nuestros resultados, cada integrante del grupo realizo una prueba con +1M de datos tanto para struct como para class y sacamos un promedio, estos fueron nuestros resultados:
+
+**NOTA IMPORTANTE: En el caso de la pregunta en la cual se imprimen todas las personas declarantes que pertenencen a x grupo, en el video se muestra el tiempo de busqueda + el tiempo de impresión, por lo que para esta comparación solo se tuvo en cuenta el tiempo de busqueda.**
+
+**NOTA IMPORTANTE 2: Para la memoria y el tiempo totales se restaron las respectivas metricas al generar los datos**
+
+![comparativa](https://github.com/user-attachments/assets/bbe0e424-921a-42ea-958b-b808b8f35a4e)
+
+## Video
+
+A continuación anexamos link del video explicativo y demostrativo del código en funcionamiento:  
+[Link al video](https://drive.google.com/file/d/10dmXq6jP1kz55r8UxE3UqnKzHeSYbKy6/view?usp=sharing)
+
 
 ## Preguntas Obligatorias
 
