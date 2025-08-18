@@ -5,7 +5,7 @@ Parcial 1 Sistemas Operativos Semestre 2025-2
 
 - Juan José Vasquez
 - Santiago Alvarez
-- Sebastiang Giraldo
+- Sebastian Giraldo
 
 ## Métricas y resultados:
 
